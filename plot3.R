@@ -1,0 +1,10 @@
+data<-read.csv("household_power_consumption.txt",sep=";",na.strings=c("?",""))
+subdata<-data[grepl("^[1,2]/2/2007",as.character(data$Date)),]
+datatime<-paste(subdata$Date,subdata$Time,sep=",")
+datatime<-strptime(datatime,format="%d/%m/%Y,%H:%M:%S")
+plot(datatime,subdata$Sub_metering_1,type="l",xlab="",ylab="Energy sub metering")
+points(datatime,subdata$Sub_metering_2,type="l",col="red")
+points(datatime,subdata$Sub_metering_3,type="l",col="blue")
+legend("topright",inset=c(0,-0.02),legend=c("sub_metering_1","sub_metering_2","sub_metering_3"),col=c("black","red","blue"),lty=1,lwd=2,y.intersp=0.4)
+dev.copy(png,filename="plot3.png",width=480,height=480)
+dev.off()
